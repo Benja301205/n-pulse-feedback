@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -74,8 +73,8 @@ const Formulario = () => {
 
       console.log("Submitting responses:", responses);
 
-      // Simulate API call to N8n webhook
-      const response = await fetch("https://augustus2425.app.n8n.cloud/webhook/picanthon-survey", {
+      // Updated webhook URL
+      const response = await fetch("https://augustus2425.app.n8n.cloud/webhook-test/picanthon-survey", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
