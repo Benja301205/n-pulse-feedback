@@ -1,8 +1,7 @@
-
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, TrendingUp, Heart, Lightbulb, MessageSquote, BarChart3 } from "lucide-react";
+import { ArrowLeft, TrendingUp, Heart, Lightbulb, MessageSquare, BarChart3 } from "lucide-react";
 
 const Resultados = () => {
   const navigate = useNavigate();
@@ -131,7 +130,7 @@ const Resultados = () => {
           <Card className="bg-white/10 backdrop-blur-sm border-white/20">
             <CardHeader>
               <CardTitle className="text-white flex items-center">
-                <MessageSquote className="mr-2 h-6 w-6 text-blue-400" />
+                <MessageSquare className="mr-2 h-6 w-6 text-blue-400" />
                 📝 Testimonios Destacados
               </CardTitle>
             </CardHeader>
