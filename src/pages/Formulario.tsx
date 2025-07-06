@@ -73,8 +73,8 @@ const Formulario = () => {
 
       console.log("Submitting responses:", responses);
 
-      // Updated webhook URL with no-cors mode to handle CORS issues
-      const response = await fetch("https://augustus2425.app.n8n.cloud/webhook-test/picanthon-survey", {
+      // Production webhook URL
+      const response = await fetch("https://augustus2425.app.n8n.cloud/webhook/picanthon-survey", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
