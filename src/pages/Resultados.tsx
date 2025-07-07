@@ -1,23 +1,29 @@
+
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, TrendingUp, Heart, Lightbulb, MessageSquare, BarChart3 } from "lucide-react";
+import { ArrowLeft, TrendingUp, Heart, Lightbulb, MessageSquare, BarChart3, Plus } from "lucide-react";
 
 const Resultados = () => {
   const navigate = useNavigate();
 
   // Mock data - In real implementation, this would come from N8n/GPT analysis
   const mockResults = {
-    topTemas: [
+    topTemasMantenidos: [
       { tema: "Excelente networking y mentores", count: 23 },
-      { tema: "Comida y ambiente increíbles", count: 19 },
+      { tema: "Ambiente increíble y buena energía", count: 19 },
       { tema: "Dinámicas de pitch muy útiles", count: 16 }
     ],
     promedioVolver: 4.2,
-    sugerenciasComunes: [
+    sugerenciasCambios: [
       "Más tiempo para el desarrollo",
       "Mejor comunicación de los criterios",
       "Espacios de descanso más cómodos"
+    ],
+    ideasAgregar: [
+      "Workshops técnicos adicionales",
+      "Más tiempo de networking",
+      "Actividades de team building"
     ],
     testimoniosDestacados: [
       "La experiencia superó mis expectativas. Los mentores fueron increíbles y aprendí muchísimo.",
@@ -58,20 +64,20 @@ const Resultados = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Top Temas */}
+          {/* Lo que más gustó - Top Temas */}
           <Card className="bg-white/10 backdrop-blur-sm border-white/20">
             <CardHeader>
               <CardTitle className="text-white flex items-center">
-                <TrendingUp className="mr-2 h-6 w-6 text-red-400" />
-                🔥 Top 3 Temas Más Mencionados
+                <TrendingUp className="mr-2 h-6 w-6 text-green-400" />
+                ❤️ Lo que más les gustó
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {mockResults.topTemas.map((item, index) => (
+                {mockResults.topTemasMantenidos.map((item, index) => (
                   <div key={index} className="flex justify-between items-center">
                     <span className="text-white">{item.tema}</span>
-                    <span className="bg-red-500/20 text-red-300 px-3 py-1 rounded-full text-sm">
+                    <span className="bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-sm">
                       {item.count} menciones
                     </span>
                   </div>
@@ -106,17 +112,17 @@ const Resultados = () => {
             </CardContent>
           </Card>
 
-          {/* Sugerencias Comunes */}
+          {/* Lo que cambiarían */}
           <Card className="bg-white/10 backdrop-blur-sm border-white/20">
             <CardHeader>
               <CardTitle className="text-white flex items-center">
                 <Lightbulb className="mr-2 h-6 w-6 text-yellow-400" />
-                💡 Sugerencias Más Comunes
+                🔧 Lo que cambiarían
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {mockResults.sugerenciasComunes.map((sugerencia, index) => (
+                {mockResults.sugerenciasCambios.map((sugerencia, index) => (
                   <div key={index} className="flex items-start">
                     <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                     <span className="text-white">{sugerencia}</span>
@@ -126,25 +132,45 @@ const Resultados = () => {
             </CardContent>
           </Card>
 
-          {/* Testimonios */}
+          {/* Lo que agregarían */}
           <Card className="bg-white/10 backdrop-blur-sm border-white/20">
             <CardHeader>
               <CardTitle className="text-white flex items-center">
-                <MessageSquare className="mr-2 h-6 w-6 text-blue-400" />
-                📝 Testimonios Destacados
+                <Plus className="mr-2 h-6 w-6 text-blue-400" />
+                ➕ A los participantes les encantaría agregar...
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {mockResults.testimoniosDestacados.map((testimonio, index) => (
-                  <div key={index} className="border-l-4 border-blue-400 pl-4">
-                    <p className="text-gray-300 italic">"{testimonio}"</p>
+              <div className="space-y-3">
+                {mockResults.ideasAgregar.map((idea, index) => (
+                  <div key={index} className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span className="text-white">{idea}</span>
                   </div>
                 ))}
               </div>
             </CardContent>
           </Card>
         </div>
+
+        {/* Testimonios Destacados */}
+        <Card className="bg-white/10 backdrop-blur-sm border-white/20 mt-8">
+          <CardHeader>
+            <CardTitle className="text-white flex items-center">
+              <MessageSquare className="mr-2 h-6 w-6 text-purple-400" />
+              📝 Testimonios Destacados
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {mockResults.testimoniosDestacados.map((testimonio, index) => (
+                <div key={index} className="border-l-4 border-purple-400 pl-4">
+                  <p className="text-gray-300 italic">"{testimonio}"</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Gráfico de Promedios */}
         <Card className="bg-white/10 backdrop-blur-sm border-white/20 mt-8">

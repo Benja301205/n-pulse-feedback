@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -27,7 +26,8 @@ const Formulario = () => {
     // Open questions
     queMantendrías: "",
     queCambiarías: "",
-    queAgregarías: ""
+    queAgregarías: "",
+    comentarioAdicional: ""
   });
 
   const scaleQuestions = [
@@ -42,9 +42,10 @@ const Formulario = () => {
   ];
 
   const openQuestions = [
-    { key: "queMantendrías", text: "¿Qué mantendrías de la hackathon? ¿Qué fue lo que más te gustó?" },
-    { key: "queCambiarías", text: "¿Qué cambiarías de la hackathon? ¿Qué fue lo que menos te gustó?" },
-    { key: "queAgregarías", text: "¿Qué agregarías a la Picanthon?" }
+    { key: "queMantendrías", text: "¿Qué mantendrías de la hackathon? ¿Qué fue lo que más te gustó?", required: true },
+    { key: "queCambiarías", text: "¿Qué cambiarías de la hackathon? ¿Qué fue lo que menos te gustó?", required: true },
+    { key: "queAgregarías", text: "¿Qué agregarías a la Picanthon?", required: true },
+    { key: "comentarioAdicional", text: "¿Tenés algo que te gustaría agregar?", required: false }
   ];
 
   const handleScaleChange = (questionKey: string, value: string) => {
@@ -66,6 +67,19 @@ const Formulario = () => {
         toast({
           title: "Campos incompletos",
           description: "Por favor responde todas las preguntas de escala (1-5).",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Check if all required open questions are answered
+      const requiredOpenQuestions = openQuestions.filter(q => q.required);
+      const allRequiredOpenAnswered = requiredOpenQuestions.every(q => responses[q.key as keyof typeof responses].trim() !== "");
+      if (!allRequiredOpenAnswered) {
+        toast({
+          title: "Campos incompletos",
+          description: "Por favor responde todas las preguntas obligatorias.",
           variant: "destructive",
         });
         setIsSubmitting(false);
@@ -177,11 +191,12 @@ const Formulario = () => {
                 <div key={question.key} className="space-y-3">
                   <Label className="text-white text-base font-medium leading-relaxed">
                     {question.text}
+                    {question.required && <span className="text-red-400 ml-1">*</span>}
                   </Label>
                   <Textarea
                     value={responses[question.key as keyof typeof responses]}
                     onChange={(e) => handleOpenChange(question.key, e.target.value)}
-                    placeholder="Escribe tu respuesta aquí..."
+                    placeholder={question.required ? "Escribe tu respuesta aquí..." : "Opcional - Escribe tu respuesta aquí..."}
                     className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 min-h-[100px]"
                   />
                 </div>
