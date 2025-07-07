@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -30,14 +31,14 @@ const Formulario = () => {
   });
 
   const scaleQuestions = [
-    { key: "probabilidadVolver", text: "¿Del 1 al 5 cuán probable es que vuelvas a anotarte a la segunda edición de la Picanthon?" },
-    { key: "calificacionLugar", text: "¿Del 1 al 5 qué te pareció el lugar?" },
-    { key: "calificacionComida", text: "¿Del 1 al 5 qué te pareció la comida?" },
-    { key: "experienciaMentores", text: "¿Del 1 al 5 cómo fue la experiencia de tu grupo con los mentores?" },
-    { key: "calificacionMiniGames", text: "¿Del 1 al 5 qué te parecieron los mini games?" },
-    { key: "calificacionConsigna", text: "¿Del 1 al 5 qué te pareció la consigna y el output esperado?" },
-    { key: "dinamicaPitch", text: "¿Del 1 al 5 qué te pareció la dinámica del pitch/pregunta de mentores? (¿Pudieron transmitir lo que habían creado?)" },
-    { key: "decisionJueces", text: "¿Del 1 al 5 qué te pareció la decisión final de los jueces?" }
+    { key: "probabilidadVolver", text: "¿Cuán probable es que vuelvas a anotarte a la segunda edición de la Picanthon?" },
+    { key: "calificacionLugar", text: "¿Qué te pareció el lugar?" },
+    { key: "calificacionComida", text: "¿Qué te pareció la comida?" },
+    { key: "experienciaMentores", text: "¿Cómo fue la experiencia de tu grupo con los mentores?" },
+    { key: "calificacionMiniGames", text: "¿Qué te parecieron los mini games?" },
+    { key: "calificacionConsigna", text: "¿Qué te pareció la consigna y el output esperado?" },
+    { key: "dinamicaPitch", text: "¿Qué te pareció la dinámica del pitch/pregunta de mentores? (¿Pudieron transmitir lo que habían creado?)" },
+    { key: "decisionJueces", text: "¿Qué te pareció la decisión final de los jueces?" }
   ];
 
   const openQuestions = [
@@ -132,6 +133,7 @@ const Formulario = () => {
           <Card className="bg-white/10 backdrop-blur-sm border-white/20">
             <CardHeader>
               <CardTitle className="text-white text-2xl">Califica tu experiencia</CardTitle>
+              <p className="text-white/80 text-lg font-medium">Del 1 al 5</p>
             </CardHeader>
             <CardContent className="space-y-6">
               {scaleQuestions.map((question) => (
