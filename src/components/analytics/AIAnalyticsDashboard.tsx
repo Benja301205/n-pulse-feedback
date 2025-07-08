@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { RefreshCw } from 'lucide-react';
+
 import { AIFeedbackData } from '@/types/analytics';
 import ExecutiveSummaryCard from './ExecutiveSummaryCard';
 import ThemeAnalysisCard from './ThemeAnalysisCard';
@@ -79,28 +79,16 @@ const AIAnalyticsDashboard: React.FC<AIAnalyticsDashboardProps> = ({
 
   return (
     <div className="space-y-8">
-      {/* Header with refresh */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-bold text-white">
-            📊 Análisis de Feedback con IA
-          </h2>
-          {lastUpdate && (
-            <p className="text-gray-300 text-sm mt-1">
-              Actualizado: {lastUpdate.toLocaleTimeString()}
-            </p>
-          )}
-        </div>
-        
-        <Button 
-          onClick={fetchData} 
-          variant="outline" 
-          className="text-white border-white/20 hover:bg-white/10"
-          disabled={loading}
-        >
-          <RefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-          Actualizar
-        </Button>
+      {/* Header */}
+      <div>
+        <h2 className="text-2xl font-bold text-white">
+          📊 Análisis de Feedback con IA
+        </h2>
+        {lastUpdate && (
+          <p className="text-gray-300 text-sm mt-1">
+            Actualizado: {lastUpdate.toLocaleTimeString()}
+          </p>
+        )}
       </div>
 
       {error && (

@@ -1,7 +1,7 @@
 
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, BarChart3 } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import AIAnalyticsDashboard from "@/components/analytics/AIAnalyticsDashboard";
 import { AIFeedbackData } from "@/types/analytics";
 
@@ -80,16 +80,6 @@ const Resultados = () => {
               </p>
             </div>
             
-            <div className="flex gap-2 mt-4 md:mt-0">
-              <Button 
-                onClick={() => navigate("/metricas")} 
-                variant="outline" 
-                className="text-white border-white/20 hover:bg-white/10"
-              >
-                <BarChart3 className="mr-2 h-4 w-4" />
-                Dashboard Técnico
-              </Button>
-            </div>
           </div>
         </div>
 
