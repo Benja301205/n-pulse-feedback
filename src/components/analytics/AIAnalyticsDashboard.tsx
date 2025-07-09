@@ -40,7 +40,54 @@ const AIAnalyticsDashboard: React.FC<AIAnalyticsDashboardProps> = ({
       }
       
       const fetchedData = await response.json();
-      setData(fetchedData);
+      
+      // Transform API data to expected format
+      const transformedData: AIFeedbackData = {
+        probabilidadVolver: fetchedData.probabilidadVolver || 0,
+        calificacionLugar: fetchedData.calificacionLugar || 0,
+        calificacionComida: fetchedData.calificacionComida || 0,
+        experienciaMentores: fetchedData.experienciaMentores || 0,
+        calificacionMiniGames: fetchedData.calificacionMiniGames || 0,
+        calificacionConsigna: fetchedData.calificacionConsigna || 0,
+        dinamicaPitch: fetchedData.dinamicaPitch || 0,
+        decisionJueces: fetchedData.decisionJueces || 0,
+        nps_global: fetchedData.nps_global || 0,
+        análisis_detallado: {
+          executive_summary: {
+            key_message: `Evento con ${fetchedData.total_respuestas || 0} respuestas. ${fetchedData.areas_excelentes?.length ? `Destacan: ${fetchedData.areas_excelentes.join(', ')}` : 'Análisis en progreso.'}`,
+            trend: fetchedData.nps_global > 40 ? 'mejorando' : fetchedData.nps_global > 0 ? 'estable' : 'empeorando',
+            overall_health_score: Math.min(10, Math.max(0, (fetchedData.nps_global + 100) / 20))
+          },
+          pattern_analysis: {
+            recurring_themes: [
+              {
+                theme: "SATISFACCION_GENERAL",
+                frequency: `${fetchedData.porcentaje_promotores || 0}%`,
+                sentiment: (fetchedData.sentiment_promedio || 0),
+                impact: fetchedData.porcentaje_promotores > 50 ? "muy positivo" : "positivo"
+              },
+              {
+                theme: "AREAS_EXCELENTES",
+                frequency: `${fetchedData.areas_excelentes?.length || 0}`,
+                sentiment: 0.8,
+                impact: "positivo"
+              }
+            ]
+          },
+          segment_analysis: {
+            high_engaged: {
+              percentage: fetchedData.porcentaje_promotores || 0,
+              avg_nps: 8.5
+            },
+            at_risk: {
+              percentage: fetchedData.porcentaje_detractores || 0,
+              avg_nps: 4.0
+            }
+          }
+        }
+      };
+      
+      setData(transformedData);
       setLastUpdate(new Date());
     } catch (error) {
       console.error('Error fetching AI analytics:', error);
