@@ -1,11 +1,14 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { AIFeedbackData } from '@/types/analytics';
 import ExecutiveSummaryCard from './ExecutiveSummaryCard';
 import ThemeAnalysisCard from './ThemeAnalysisCard';
 import SegmentAnalysisCard from './SegmentAnalysisCard';
 import NPSCard from './NPSCard';
+import GoogleSheetsConnector from './GoogleSheetsConnector';
 import MetricCard from '../MetricCard';
 import LoadingSpinner from '../LoadingSpinner';
 import ErrorMessage from '../ErrorMessage';
@@ -23,8 +26,9 @@ const AIAnalyticsDashboard: React.FC<AIAnalyticsDashboardProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
+  const [dataSource, setDataSource] = useState<'api' | 'sheets'>('api');
 
-  const fetchData = async () => {
+  const fetchFromAPI = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -40,7 +44,7 @@ const AIAnalyticsDashboard: React.FC<AIAnalyticsDashboardProps> = ({
       setLastUpdate(new Date());
     } catch (error) {
       console.error('Error fetching AI analytics:', error);
-      setError('Error al cargar el análisis. Usando datos de ejemplo.');
+      setError('Error al cargar el análisis desde API. Usando datos de ejemplo.');
       
       if (mockData) {
         setData(mockData);
@@ -50,9 +54,17 @@ const AIAnalyticsDashboard: React.FC<AIAnalyticsDashboardProps> = ({
     }
   };
 
+  const handleGoogleSheetsData = (sheetsData: AIFeedbackData) => {
+    setData(sheetsData);
+    setError(null);
+    setDataSource('sheets');
+  };
+
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (dataSource === 'api') {
+      fetchFromAPI();
+    }
+  }, [dataSource]);
 
   // Loading state
   if (loading && !data) {
@@ -61,13 +73,13 @@ const AIAnalyticsDashboard: React.FC<AIAnalyticsDashboardProps> = ({
 
   // Error state without fallback data
   if (error && !data && !mockData) {
-    return <ErrorMessage message={error} onRetry={fetchData} />;
+    return <ErrorMessage message={error} onRetry={fetchFromAPI} />;
   }
 
   const currentData = data || mockData;
   
   if (!currentData) {
-    return <ErrorMessage message="No hay datos disponibles" onRetry={fetchData} />;
+    return <ErrorMessage message="No hay datos disponibles" onRetry={fetchFromAPI} />;
   }
 
   const basicMetrics = [
@@ -86,12 +98,31 @@ const AIAnalyticsDashboard: React.FC<AIAnalyticsDashboardProps> = ({
         </h2>
         {lastUpdate && (
           <p className="text-gray-300 text-sm mt-1">
-            Actualizado: {lastUpdate.toLocaleTimeString()}
+            Actualizado: {lastUpdate.toLocaleTimeString()} 
+            <span className="ml-2 text-xs">
+              ({dataSource === 'api' ? 'API' : 'Google Sheets'})
+            </span>
           </p>
         )}
       </div>
 
-      {error && (
+      {/* Data Source Selector */}
+      <Tabs value={dataSource} onValueChange={(value) => setDataSource(value as 'api' | 'sheets')}>
+        <TabsList className="bg-white/10 border-white/20">
+          <TabsTrigger value="api" className="text-white">
+            🔗 API / Webhook
+          </TabsTrigger>
+          <TabsTrigger value="sheets" className="text-white">
+            📊 Google Sheets
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="sheets" className="mt-6">
+          <GoogleSheetsConnector onDataReceived={handleGoogleSheetsData} />
+        </TabsContent>
+      </Tabs>
+
+      {error && dataSource === 'api' && (
         <div className="bg-yellow-500/20 border border-yellow-500/20 rounded-lg p-4">
           <p className="text-yellow-300 text-sm">⚠️ {error}</p>
         </div>
