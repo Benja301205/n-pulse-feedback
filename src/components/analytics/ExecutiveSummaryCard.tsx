@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
@@ -42,7 +43,7 @@ const ExecutiveSummaryCard: React.FC<ExecutiveSummaryCardProps> = ({ summary }) 
           <div className="flex justify-between items-center">
             <span className="text-gray-300">Salud General del Evento:</span>
             <span className={`text-xl font-bold ${getHealthColor(summary.overall_health_score)}`}>
-              {summary.overall_health_score}/10
+              {Math.round(summary.overall_health_score)}/10
             </span>
           </div>
           
