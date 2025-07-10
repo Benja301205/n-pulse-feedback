@@ -27,8 +27,12 @@ const NPSCard: React.FC<NPSCardProps> = ({ nps }) => {
     return <AlertTriangle className="w-5 h-5 text-red-400" />;
   };
 
+  // Fixed rotation calculation: -100 should be at 0 degrees (left), +100 should be at 180 degrees (right)
   const getRotationAngle = (score: number) => {
-    return ((score + 100) / 200) * 180;
+    // Clamp the score between -100 and 100
+    const clampedScore = Math.max(-100, Math.min(100, score));
+    // Map -100 to 0 degrees, +100 to 180 degrees
+    return ((clampedScore + 100) / 200) * 180;
   };
 
   const angle = getRotationAngle(nps);
@@ -105,41 +109,43 @@ const NPSCard: React.FC<NPSCardProps> = ({ nps }) => {
                 strokeLinecap="round"
               />
               
-              {/* Aguja moderna */}
-              <g transform={`rotate(${angle} 112 108)`}>
+              {/* Aguja moderna con transformación fija */}
+              <g transform={`rotate(${angle} 112 108)`} style={{ transformOrigin: '112px 108px' }}>
                 <line
                   x1="112"
                   y1="108"
                   x2="112"
                   y2="32"
                   stroke="white"
-                  strokeWidth="3"
+                  strokeWidth="4"
                   strokeLinecap="round"
+                  style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}
                 />
                 <circle
                   cx="112"
                   cy="108"
-                  r="6"
+                  r="8"
                   fill="white"
+                  style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}
                 />
                 <circle
                   cx="112"
                   cy="108"
-                  r="3"
-                  fill="rgba(255, 255, 255, 0.8)"
+                  r="4"
+                  fill="rgba(255, 255, 255, 0.9)"
                 />
               </g>
             </svg>
             
             {/* Marcadores modernos con mejor alineación */}
             <div className="absolute inset-0 text-xs font-medium text-white/70">
-              <span className="absolute left-1 bottom-0 transform translate-y-1">-100</span>
-              <span className="absolute left-1/2 top-1 transform -translate-x-1/2">0</span>
-              <span className="absolute right-1 bottom-0 transform translate-y-1">+100</span>
+              <span className="absolute left-2 bottom-0 transform translate-y-1">-100</span>
+              <span className="absolute left-1/2 top-2 transform -translate-x-1/2">0</span>
+              <span className="absolute right-2 bottom-0 transform translate-y-1">+100</span>
             </div>
             
             {/* Número del NPS centrado en el velocímetro */}
-            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
               <div className={`text-4xl font-bold ${getNPSColor(nps)} tracking-tight`}>
                 {Math.round(nps)}
               </div>
